@@ -14,10 +14,11 @@ Download **both** files from the [latest release](../../releases/latest): `patch
 - Boots, gloves and robes hide and show the right body parts. With low boots the bare toes are hidden (ReforgedHD `Pies` module).
 - **Death Knight eyes** with the modern glow.
 
-## ReforgedHD.dll (1.4)
+## ReforgedHD.dll (1.5)
 Standalone (no WarcraftXL, no AwesomeWotlk, KERNEL32 only). **Optional load:** the patched `Wow.exe` tries to load `ReforgedHD.dll` at startup; if the DLL is missing the game still starts normally, just without the improvements. Modules:
 - **IndicesGrandes**: removes the 65,535-index limit per `.skin`, so the full HD models fit (retail convention: section start = `level << 16 | indexStart`). Blizzard models (level 0) behave exactly as before.
 - **Pies**: low boots (ItemDisplayInfo `GeosetGroup[0] = 0`) switch the bare foot with toes for the HD booted foot. Models without that geoset (Blizzard's, Draenei, Tauren, Troll) are unchanged.
+- **Cascos** (helmets): fits every helmet to the HD heads using `Interface\ReforgedHD\cascos.csv` inside `patch-H.mpq` (per race/sex fit taken from Blizzard's own Forever re-fitted helmets, plus per-helmet rows). The original 3.3.5a helmet models are used; helmets from other servers get the race/sex fit.
 - **MD21**: experimental loader for modern (MD21) models, **disabled** (`MD21=0`). Not needed for this patch.
 
 Before patching, the DLL checks the original bytes of every site; if one does not match (another build, or already patched by something else) it changes nothing and writes it to `ReforgedHD.log`.
