@@ -14,8 +14,8 @@ Download **both** files from the [latest release](../../releases/latest): `patch
 - Boots, gloves and robes hide and show the right body parts. With low boots the bare toes are hidden (ReforgedHD `Pies` module).
 - **Death Knight eyes** with the modern glow.
 
-## ReforgedHD.dll
-Standalone (no WarcraftXL, no AwesomeWotlk, KERNEL32 only). Modules:
+## ReforgedHD.dll (1.4)
+Standalone (no WarcraftXL, no AwesomeWotlk, KERNEL32 only). **Optional load:** the patched `Wow.exe` tries to load `ReforgedHD.dll` at startup; if the DLL is missing the game still starts normally, just without the improvements. Modules:
 - **IndicesGrandes**: removes the 65,535-index limit per `.skin`, so the full HD models fit (retail convention: section start = `level << 16 | indexStart`). Blizzard models (level 0) behave exactly as before.
 - **Pies**: low boots (ItemDisplayInfo `GeosetGroup[0] = 0`) switch the bare foot with toes for the HD booted foot. Models without that geoset (Blizzard's, Draenei, Tauren, Troll) are unchanged.
 - **MD21**: experimental loader for modern (MD21) models, **disabled** (`MD21=0`). Not needed for this patch.
@@ -23,18 +23,19 @@ Standalone (no WarcraftXL, no AwesomeWotlk, KERNEL32 only). Modules:
 Before patching, the DLL checks the original bytes of every site; if one does not match (another build, or already patched by something else) it changes nothing and writes it to `ReforgedHD.log`.
 
 ## Installation (game closed)
-1. Unzip `ReforgedHD.zip` next to `Wow.exe` and run `INSTALL.cmd` once. It first saves an exact copy, `Wow.exe.ReforgedHD.bak`, then adds `ReforgedHD.dll` to the exe's import table. It refuses if the exe is already patched or the backup exists.
+1. Unzip `ReforgedHD.zip` next to `Wow.exe` and run `INSTALL.cmd` once (or drag your `Wow.exe` onto `PatchReforgedHD.exe`). It first saves an exact copy, `Wow.exe.ReforgedHD.bak`, sets Large Address Aware and adds a tiny optional loader. The exe size and `SizeOfImage` do not change. An older ReforgedHD install (1.0-1.3) is upgraded in place.
 2. Copy `patch-H.mpq` into your `Data` folder. **Keep that exact name**: the stock client only loads `patch-<one character>.MPQ`.
 3. Delete your `Cache` folder.
 
-**Both files are required.** Without the DLL the HD characters render with broken triangles.
+**Both files are required for the HD characters.** With `patch-H.mpq` but without the DLL the game starts, but the HD characters render with broken triangles.
 
 Uninstall: run `UNINSTALL.cmd` (restores `Wow.exe` from the backup) and delete `Data\patch-H.mpq`.
 Disable without uninstalling: `ReforgedHD.ini` → `[General] Enabled=0`, or set the environment variable `REFORGEDHD_DISABLE=1`. Only the boots fix: `[Modules] Pies=0`.
 
 ## Compatibility
 - The patch carries its own `ItemDisplayInfo.dbc` and `HelmetGeosetVisData.dbc` (Blizzard's, changing only what each helmet hides) so long HD hair does not clip through closed helmets. If your server ships its own patch with new items in `ItemDisplayInfo.dbc`, give that patch higher priority.
-- Works alongside other DLLs imported by `Wow.exe` (e.g. PetSelectScale), in any install order.
+- Works alongside other DLLs loaded by `Wow.exe`. The loader does not use the import table and does not touch the startup hook used by the AwesomeWotlk / WotLKExtensions loaders (0x40B7D0 / 0x4E5CB0).
+- St0ny's AIO WoW.exe Patcher: none of its patches touch the sites ReforgedHD patches (checked by reading its source), and ReforgedHD patches those sites in memory, so St0ny still sees original bytes on disk. Not yet tested together in game.
 
 ## Known limitations
 - Only the stock 3.3.5a options exist. Modern extras (face shapes, eye colors, extra hairstyles and jewelry) are not included.
