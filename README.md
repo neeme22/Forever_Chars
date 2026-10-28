@@ -35,7 +35,7 @@ Disable without uninstalling: `ReforgedHD.ini` → `[General] Enabled=0`, or set
 ## Compatibility
 - The patch carries its own `ItemDisplayInfo.dbc` and `HelmetGeosetVisData.dbc` (Blizzard's, changing only what each helmet hides) so long HD hair does not clip through closed helmets. If your server ships its own patch with new items in `ItemDisplayInfo.dbc`, give that patch higher priority.
 - Works alongside other DLLs loaded by `Wow.exe`. The loader does not use the import table and does not touch the startup hook used by the AwesomeWotlk / WotLKExtensions loaders (0x40B7D0 / 0x4E5CB0).
-- St0ny's AIO WoW.exe Patcher: none of its patches touch the sites ReforgedHD patches (checked by reading its source), and ReforgedHD patches those sites in memory, so St0ny still sees original bytes on disk. Not yet tested together in game.
+- St0ny's AIO WoW.exe Patcher: none of its patches touch the sites ReforgedHD patches (checked by reading its source), and the ReforgedHD loader avoids every file range St0ny writes (including its watermark). **Order:** run St0ny's patcher first, then ReforgedHD. St0ny refuses an exe changed by other tools, so to change St0ny patches later: run `UNINSTALL.cmd`, use St0ny, then install ReforgedHD again. Tested with St0ny's patches simulated byte by byte, not with his script itself.
 
 ## Known limitations
 - Only the stock 3.3.5a options exist. Modern extras (face shapes, eye colors, extra hairstyles and jewelry) are not included.
