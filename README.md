@@ -24,7 +24,7 @@ Standalone (no WarcraftXL, no AwesomeWotlk, KERNEL32 only). **Optional load:** t
 Before patching, the DLL checks the original bytes of every site; if one does not match (another build, or already patched by something else) it changes nothing and writes it to `ReforgedHD.log`.
 
 ## Installation (game closed)
-1. Unzip `ReforgedHD.zip` next to `Wow.exe` and run `INSTALL.cmd` once (or drag your `Wow.exe` onto `PatchReforgedHD.exe`). It first saves an exact copy, `Wow.exe.ReforgedHD.bak`, sets Large Address Aware and adds a tiny optional loader. The exe size and `SizeOfImage` do not change. An older ReforgedHD install (1.0-1.3) is upgraded in place.
+1. Unzip `ReforgedHD.zip` next to `Wow.exe` and run `INSTALL.cmd` once (or drag your `Wow.exe` onto `INSTALL.cmd`). The patcher is a readable PowerShell script, `PatchReforgedHD.ps1` (an `.exe` patcher was flagged by antivirus heuristics as a false positive). It first saves an exact copy, `Wow.exe.ReforgedHD.bak`, sets Large Address Aware and adds a tiny optional loader. The exe size and `SizeOfImage` do not change. An older ReforgedHD install (1.0-1.3) is upgraded in place.
 2. Copy `patch-H.mpq` into your `Data` folder. **Keep that exact name**: the stock client only loads `patch-<one character>.MPQ`.
 3. Delete your `Cache` folder.
 
