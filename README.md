@@ -14,11 +14,11 @@ Download **both** files from the [latest release](../../releases/latest): `patch
 - Boots, gloves and robes hide and show the right body parts. With low boots the bare toes are hidden (ReforgedHD `Pies` module).
 - **Death Knight eyes** with the modern glow.
 
-## ReforgedHD.dll (1.5)
+## ReforgedHD.dll (1.5.1)
 Standalone (no WarcraftXL, no AwesomeWotlk, KERNEL32 only). **Optional load:** the patched `Wow.exe` tries to load `ReforgedHD.dll` at startup; if the DLL is missing the game still starts normally, just without the improvements. Modules:
 - **IndicesGrandes**: removes the 65,535-index limit per `.skin`, so the full HD models fit (retail convention: section start = `level << 16 | indexStart`). Blizzard models (level 0) behave exactly as before.
 - **Pies**: low boots (ItemDisplayInfo `GeosetGroup[0] = 0`) switch the bare foot with toes for the HD booted foot. Models without that geoset (Blizzard's, Draenei, Tauren, Troll) are unchanged.
-- **Cascos** (helmets): fits every helmet to the HD heads using `Interface\ReforgedHD\cascos.csv` inside `patch-H.mpq` (per race/sex fit taken from Blizzard's own Forever re-fitted helmets, plus per-helmet rows). The original 3.3.5a helmet models are used; helmets from other servers get the race/sex fit.
+- **Cascos** (helmets): fits every helmet to the HD heads using `Interface\ReforgedHD\cascos.csv` inside `patch-H.mpq` (per race/sex fit taken from Blizzard's own Forever re-fitted helmets, plus per-helmet rows checked against all 5,438 helmet/race combinations). The original 3.3.5a helmet models are used; helmets from other servers get the race/sex fit. 1.5.1 fixes the per-helmet rows, which 1.5 never applied (it always used the race/sex fit).
 - **MD21**: experimental loader for modern (MD21) models, **disabled** (`MD21=0`). Not needed for this patch.
 
 Before patching, the DLL checks the original bytes of every site; if one does not match (another build, or already patched by something else) it changes nothing and writes it to `ReforgedHD.log`.
@@ -34,7 +34,7 @@ Uninstall: run `UNINSTALL.cmd` (restores `Wow.exe` from the backup) and delete `
 Disable without uninstalling: `ReforgedHD.ini` → `[General] Enabled=0`, or set the environment variable `REFORGEDHD_DISABLE=1`. Only the boots fix: `[Modules] Pies=0`.
 
 ## Compatibility
-- The patch carries its own `ItemDisplayInfo.dbc` and `HelmetGeosetVisData.dbc` (Blizzard's, changing only what each helmet hides) so long HD hair does not clip through closed helmets. If your server ships its own patch with new items in `ItemDisplayInfo.dbc`, give that patch higher priority.
+- The patch carries its own `ItemDisplayInfo.dbc` and `HelmetGeosetVisData.dbc` (Blizzard's, changing only what each helmet hides) so long HD hair does not clip through closed helmets; open helmets keep the hairstyle exactly as on Blizzard's models. If your server ships its own patch with new items in `ItemDisplayInfo.dbc`, give that patch higher priority.
 - Works alongside other DLLs loaded by `Wow.exe`. The loader does not use the import table and does not touch the startup hook used by the AwesomeWotlk / WotLKExtensions loaders (0x40B7D0 / 0x4E5CB0).
 - St0ny's AIO WoW.exe Patcher: none of its patches touch the sites ReforgedHD patches (checked by reading its source), and the ReforgedHD loader avoids every file range St0ny writes (including its watermark). **Order:** run St0ny's patcher first, then ReforgedHD. St0ny refuses an exe changed by other tools, so to change St0ny patches later: run `UNINSTALL.cmd`, use St0ny, then install ReforgedHD again. Tested with St0ny's patches simulated byte by byte, not with his script itself.
 
